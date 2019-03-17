@@ -4,32 +4,128 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Trivia App</title>
+    <title>Document</title>
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <script src="./assets/javascript/app.js"></script>
   </head>
   <body>
-    <div class="grid">
-      <div id="quiz">
-        <h1>Quiz</h1>
-
-        <hr style="margin-bottom: 20px" />
-
-        <p id="question"></p>
-
-        <div class="buttons">
-          <button id="btn0"><span id="choice0"></span></button>
-          <button id="btn1"><span id="choice1"></span></button>
-          <button id="btn2"><span id="choice2"></span></button>
-          <button id="btn3"><span id="choice3"></span></button>
-          <button id="btn4"><span id="choice4"></span></button>
-        </div>
-
-        <hr style="margin-top: 50px;" />
-        <footer>
-          <p id="progress">Questions x of y.</p>
-        </footer>
+    <div container>
+      <div id="startScreen">
+        <h1>Click to start the game!!</h1>
+        <button id="startButton">Start</button>
       </div>
+
+      <div id="game-questions"></div>
     </div>
   </body>
+
+  <script>
+    var questionsArray = [
+      {
+        questionText: "What continent is Australia located in?",
+        choice1: "Australia",
+        choice2: "Europe",
+        choice3: "Canada",
+        correctAnswer: "Australia"
+      },
+      {
+        questionText: "Who is the 43rd President of the USA?",
+        choice1: "Donald Trump",
+        choice2: "Barrack Obama",
+        choice3: "George W Bush",
+        correctAnswer: "George W Bush"
+      },
+      {
+        questionText: "There are 50 states in the USA",
+        choice1: "True",
+        choice2: "False",
+        choice3: "None",
+        correctAnswer: "True"
+      },
+
+      {
+        questionText: "Java is the same as Javascript",
+        choice1: "True",
+        choice2: "False",
+        choice3: "None",
+        correctAnswer: "False"
+      },
+
+      {
+        questionText: "Washington DC is a state",
+        choice1: "True",
+        choice2: "False",
+        choice3: "None",
+        correctAnswer: "False"
+      }
+    ];
+
+    var correct = 0;
+    var incorrect = 0;
+
+    var currentQ = 0;
+
+    console.log("this is working!!", questionsArray);
+
+    $("#startButton").on("click", function() {
+      $("#startScreen").empty();
+      displayQuestion();
+    });
+
+    function displayQuestion() {
+      $("#game-questions").empty();
+      var container = $("<div>");
+
+      var questionText = $("<h1>").text(questionsArray[currentQ].questionText);
+      var choice1 = $("<button>")
+        .text(questionsArray[currentQ].choice1)
+        .attr("class", "choice");
+      var choice2 = $("<button>")
+        .text(questionsArray[currentQ].choice2)
+        .attr("class", "choice");
+      var choice3 = $("<button>")
+        .text(questionsArray[currentQ].choice3)
+        .attr("class", "choice");
+
+      container.append(questionText, choice1, choice2, choice3);
+
+      $("#game-questions").append(container);
+      console.log(
+        "first questions to stick on the page",
+        questionsArray[currentQ]
+      );
+    }
+
+    $(document).on("click", ".choice", function() {
+      console.log("Comparing this", $(this).text());
+      console.log("To that!~: ", questionsArray[currentQ].correctAnswer);
+
+      if ($(this).text() === questionsArray[currentQ].correctAnswer) {
+        // console.log('GUESSED RIGHT!!!!!')
+        correct++;
+        currentQ++;
+        if (currentQ === questionsArray.length) {
+          alert("WE R DONE U GOT THIS MANY RIGHT" + correct);
+        } else {
+          displayQuestion();
+        }
+      } else {
+        // console.log('GUESSED WRONG!!')
+        incorrect++;
+        currentQ++;
+        if (currentQ === questionsArray.length) {
+          alert("WE R DONE U GOT THIS MANY RIGHT" + correct);
+        } else {
+          displayQuestion();
+        }
+      }
+
+      console.log("Current Q!!!!! ----", currentQ);
+      // console.log('THIS IS CORRECT AND INCORRECT', correct, incorrect)
+    });
+  </script>
 </html>
